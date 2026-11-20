@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ты пойдёшь спать? 🌜</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;600;700&family=Pacifico&display=swap');
+:root{--pink:#67b7f5;--pink2:#9bd8ff;--bg:#071321;--card:#102238;--muted:#a9bfd2}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% 40%,#163a5b 0,#0b1b2d 48%,#050d18 100%);color:#fff;font-family:Comfortaa,system-ui,sans-serif;display:grid;place-items:center;overflow-x:hidden;padding:22px}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(circle at 15% 20%,#55b8ff18,transparent 25%),radial-gradient(circle at 85% 80%,#55b8ff16,transparent 30%)}
+.heart{position:fixed;color:#8bd0ff;opacity:.42;animation:float 7s ease-in-out infinite;pointer-events:none;font-size:18px}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-10deg)}50%{transform:translateY(-25px) rotate(12deg)}}
+.shell{width:min(100%,430px);position:relative;z-index:1}
+.top{display:flex;justify-content:space-between;align-items:center;color:#a9c9e2;font-size:10px;letter-spacing:1.4px;margin:0 8px 12px;text-transform:uppercase}
+.dots{display:flex;gap:5px}.dots i{width:6px;height:6px;border-radius:50%;background:#67b7f5}
+.card{min-height:555px;border:1px solid #b9e4ff20;border-radius:25px;background:linear-gradient(150deg,#142b43f2,#0b1b2df5);box-shadow:0 25px 80px #0008,inset 0 1px #ffffff0d;padding:25px 24px 28px;position:relative;overflow:hidden;text-align:center}
+.card:before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,#67b7f516,transparent 55%);pointer-events:none}
+.progress{height:3px;background:#ffffff12;border-radius:10px;overflow:hidden;margin-bottom:20px;position:relative}
+.progress span{display:block;height:100%;width:20%;background:linear-gradient(90deg,#67b7f5,#ffc0d2);border-radius:10px;transition:width .35s}
+.back{position:absolute;top:37px;left:25px;border:0;background:none;color:#a6c5df;font:inherit;font-size:11px;cursor:pointer}
+.content{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center}
+.art{height:170px;display:grid;place-items:center;font-size:100px;filter:drop-shadow(0 10px 15px #4ca9ed35);animation:bob 3s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+h1{font:32px Pacifico,cursive;line-height:1.35;margin:8px 0 12px;color:#d7efff;font-weight:400}
+.sub{font-size:12px;line-height:1.7;color:var(--muted);max-width:290px;margin:0 auto 23px}
+.buttons{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;width:100%;margin-top:4px}
+button{font-family:inherit;cursor:pointer;transition:transform .2s,box-shadow .2s,border-color .2s}
+.primary,.secondary{border-radius:30px;padding:13px 25px;font-size:13px;font-weight:700}
+.primary{border:0;color:#09213a;background:linear-gradient(135deg,#b7e5ff,#4ca9ed);box-shadow:0 7px 22px #4ca9ed45}
+.primary:hover{transform:translateY(-2px);box-shadow:0 10px 28px #4ca9ed70}
+.secondary{background:#ffffff0a;border:1px solid #ffffff1b;color:#d3e8f8}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;margin:8px 0 18px}
+.choice{min-height:76px;text-align:left;padding:13px;border:1px solid #b9e4ff20;border-radius:15px;background:#ffffff08;color:#e5f3ff;font-size:12px;line-height:1.5}
+.choice strong{display:block;font-size:20px;margin-bottom:5px}
+.choice small{color:#9bb8d0;font-size:10px}
+.choice.selected{border-color:#79c7ff;background:#67b7f520;box-shadow:0 0 0 1px #79c7ff33}
+.note{font-size:10px;color:#8da9c2;margin-top:12px}
+.hidden{display:none!important}
+.toast{min-height:20px;color:#9bd8ff;font-size:11px;margin-top:12px}
+.final{font:25px Pacifico,cursive;color:#d7efff;margin:10px 0}
+.summary{width:100%;text-align:left;background:#ffffff0a;border:1px solid #ffffff17;border-radius:16px;padding:16px;margin:12px 0 18px;font-size:12px;line-height:2;color:#d9edff}
+.summary b{color:#a9ddff}
+@media(max-width:380px){.card{padding:20px 17px;min-height:530px}h1{font-size:28px}.art{height:150px;font-size:88px}}
+</style>
+</head>
+<body>
+<div class="heart" style="left:8%;top:17%">✦</div><div class="heart" style="right:10%;top:28%;animation-delay:1.4s">✧</div><div class="heart" style="left:15%;bottom:13%;animation-delay:2.3s">✦</div><div class="heart" style="right:7%;bottom:12%;animation-delay:3s">✧</div>
+<main class="shell">
+ <div class="top"><span>✦ bedtime invitation</span><span class="dots"><i></i><i></i><i></i></span></div>
+ <section class="card">
+  <div class="progress"><span id="bar"></span></div>
+  <button class="back hidden" id="back" onclick="prev()">← Назад</button>
+  <div class="content" id="screen0">
+   <div class="art">🐻‍❄️💤</div>
+   <h1>Ты пойдёшь спать?</h1>
+   <p class="sub">Кажется, уже пора. Подушка ждёт, одеяло заждалось, а сон сам себя не поспит…</p>
+   <div class="buttons"><button class="primary" onclick="next()">Да! 🌜</button><button class="secondary" id="noBtn" onclick="nope()">Нет</button></div>
+   <div class="toast" id="toast"></div>
+  </div>
+  <div class="content hidden" id="screen1">
+   <div class="art">🌙✨</div><h1>Когда идём спать?</h1>
+   <p class="sub">Выбери время. Обещаем, не будем осуждать.</p>
+   <div class="choices" id="timeChoices">
+    <button class="choice" onclick="choose(this,'Прямо сейчас')"><strong>🌙</strong>Прямо сейчас<small>Самый разумный вариант</small></button>
+    <button class="choice" onclick="choose(this,'Через 5 минут')"><strong>⏳</strong>Через 5 минут<small>Ну, ещё чуть-чуть</small></button>
+    <button class="choice" onclick="choose(this,'После одного видео')"><strong>📱</strong>После одного видео<small>Только одного!</small></button>
+    <button class="choice" onclick="choose(this,'Уже почти утро')"><strong>🦉</strong>Уже почти утро<small>Ночной режим активирован</small></button>
+   </div>
+   <button class="primary" onclick="next()">Дальше →</button>
+  </div>
+  <div class="content hidden" id="screen2">
+   <div class="art">🧸🛏️</div><h1>Что берём с собой?</h1>
+   <p class="sub">Можно выбрать несколько пунктов. Собираем идеальный набор для сна.</p>
+   <div class="choices" id="things">
+    <button class="choice" onclick="toggle(this,'Мягкую подушку')"><strong>☁️</strong>Мягкую подушку<small>Обязательно</small></button>
+    <button class="choice" onclick="toggle(this,'Тёплый плед')"><strong>🧣</strong>Тёплый плед<small>Уют +100</small></button>
+    <button class="choice" onclick="toggle(this,'Телефон на зарядку')"><strong>🔋</strong>Телефон на зарядку<small>На всякий случай</small></button>
+    <button class="choice" onclick="toggle(this,'Стакан воды')"><strong>💧</strong>Стакан воды<small>Чтобы не вставать</small></button>
+   </div>
+   <button class="primary" onclick="next()">Готово →</button>
+  </div>
+  <div class="content hidden" id="screen3">
+   <div class="art">🐻💗🐻‍❄️</div><h1>Последний вопрос!</h1>
+   <p class="sub">Как пожелаем спокойной ночи?</p>
+   <div class="choices" id="wish">
+    <button class="choice" onclick="choose(this,'Сладких снов ❤️')"><strong>💗</strong>Сладких снов</button>
+    <button class="choice" onclick="choose(this,'Спи крепко 🌙')"><strong>🌙</strong>Спи крепко</button>
+    <button class="choice" onclick="choose(this,'Увидимся во сне ✨')"><strong>✨</strong>Увидимся во сне</button>
+    <button class="choice" onclick="choose(this,'Спокойной ночи, соня 😴')"><strong>😴</strong>Спокойной ночи, соня</button>
+   </div>
+   <button class="primary" onclick="finish()">Завершить 💕</button>
+  </div>
+  <div class="content hidden" id="screen4">
+   <div class="art">🌌💤</div>
+   <div class="final">Договорились!</div>
+   <h1>Пора спать ❤️</h1>
+   <p class="sub">Все важные дела подождут до завтра. А сейчас — отдых.</p>
+   <div class="summary" id="summary"></div>
+   <div class="buttons"><button class="primary" onclick="restart()">Спокойной ночи 🌙</button></div>
+   <p class="note">Не забудь поставить будильник, если он нужен.</p>
+  </div>
+ </section>
+ <div class="note" style="text-align:center;margin-top:14px">made with ♥ and a little bit of sleepiness</div>
+</main>
+<script>
+let step=0, answers={time:'',things:[],wish:''};
+const screens=[...document.querySelectorAll('[id^="screen"]')],bar=document.getElementById('bar'),back=document.getElementById('back');
+function render(){screens.forEach((s,i)=>s.classList.toggle('hidden',i!==step));bar.style.width=[20,40,60,80,100][step]+'%';back.classList.toggle('hidden',step===0||step===4)}
+function next(){if(step===1&&!answers.time){toastAt(1,'Сначала выбери время 😊');return}step=Math.min(4,step+1);render()}
+function prev(){step=Math.max(0,step-1);render()}
+function choose(el,val){el.parentElement.querySelectorAll('.choice').forEach(x=>x.classList.remove('selected'));el.classList.add('selected');if(step===1)answers.time=val;if(step===3)answers.wish=val}
+function toggle(el,val){el.classList.toggle('selected');answers.things=el.parentElement.querySelectorAll('.selected').length?[...el.parentElement.querySelectorAll('.selected')].map(x=>x.childNodes[2]?.textContent?.trim()||x.innerText.split('\n')[0]):[];if(el.classList.contains('selected')&&!answers.things.includes(val))answers.things.push(val);answers.things=[...new Set(answers.things)];}
+function toastAt(n,msg){let t=document.querySelector('#screen'+n+' .toast');if(t)t.textContent=msg}
+let noCount=0;
+function nope(){noCount++;const messages=['А подушка уже скучает…','Ну пожааалуйста 🥺','Завтра спасибо скажешь!','Это кнопка «Нет»? Не верю.'];document.getElementById('toast').textContent=messages[(noCount-1)%messages.length];const b=document.getElementById('noBtn');b.style.transform=`translate(${(Math.random()-.5)*45}px,${(Math.random()-.5)*24}px)`}
+function finish(){if(!answers.wish){toastAt(3,'Выбери пожелание на ночь ✨');return}document.getElementById('summary').innerHTML='<b>⏰ Когда:</b> '+answers.time+'<br><b>🎒 С собой:</b> '+(answers.things.length?answers.things.join(', '):'Только хорошее настроение')+'<br><b>💌 Пожелание:</b> '+answers.wish;step=4;render()}
+function restart(){step=0;answers={time:'',things:[],wish:''};document.querySelectorAll('.selected').forEach(x=>x.classList.remove('selected'));document.getElementById('toast').textContent='';document.getElementById('noBtn').style.transform='';noCount=0;render()}
+render();
+</script>
+</body>
+</html>
